@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @Profile("dev")
-public class DevDatabaseConfig {
+public class DatabaseConfig {
 
     @Value("db.username")
     private String username;
@@ -29,7 +29,21 @@ public class DevDatabaseConfig {
     private String idleTimeOut;
 
     @Bean
-    public DataSource dataSource(){
+    @Profile("dev")
+    public DataSource dataSourceDev(){
+        HikariConfig dataSource = new HikariConfig();
+        dataSource.setJdbcUrl(jdbcUrl);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        dataSource.setMaximumPoolSize(Integer.parseInt(maxPoolSize));
+        dataSource.setMinimumIdle(5);
+        dataSource.setIdleTimeout(Long.parseLong(idleTimeOut));
+        dataSource.setMaxLifetime(10 * 60_000);
+        return new HikariDataSource(dataSource);
+    }
+    @Bean
+    @Profile("prod")
+    public DataSource dataSourceProd(){
         HikariConfig dataSource = new HikariConfig();
         dataSource.setJdbcUrl(jdbcUrl);
         dataSource.setUsername(username);

@@ -1,4 +1,11 @@
 package org.example.service;
 
-public class ProductServiceImpl {
+import org.example.repository.ProductRepository;
+
+public class ProductServiceImpl implements ProductService{
+    private final ProductRepository productRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 }
