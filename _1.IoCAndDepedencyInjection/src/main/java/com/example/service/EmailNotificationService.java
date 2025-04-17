@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-@Service
-@Qualifier("emailNotificationService")
+@Service("emailNotificationService")
 public class EmailNotificationService implements NotificationService{
     private final NotificationRepository notificationRepository;
 

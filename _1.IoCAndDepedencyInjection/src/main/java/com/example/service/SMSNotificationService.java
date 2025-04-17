@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("smsNotificationService")
 @Primary
-@Qualifier("smsNotificationService")
 public class SMSNotificationService implements NotificationService{
 
     private final NotificationRepository notificationRepository;
