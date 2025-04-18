@@ -71,7 +71,32 @@ public class ProductRepositoryImp implements ProductRepository{
 
     @Override
     public void update(Product product) {
+        String sql = """
+                    UPDATE products 
+                    SET 
+                        name =?, 
+                        author=?,
+                        year_published=?,
+                        desc=? 
+                    WHERE
+                        id =?
+                """;
 
+        try(Connection connection = dataSource.getConnection()){
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, product.getName());
+            ps.setString(2, product.getAuthor());
+            ps.setInt(3, product.getYearPublished());
+            ps.setString(4, product.getDesc());
+            ps.setLong(5, product.getId());
+            int rowAffected = ps.executeUpdate();
+            if (rowAffected == 0){
+                throw new SQLException("failed update products, no row affected");
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
