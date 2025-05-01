@@ -5,6 +5,10 @@ import com.exercie.exercies.dto.response.ProductDtoRes;
 import com.exercie.exercies.model.Product;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @Component
 public class ProductMapper {
     public ProductDtoRes toDto(Product product){
@@ -24,9 +28,14 @@ public class ProductMapper {
         product.setDescription(productDtoReq.getDescription());
         product.setCategoryId(productDtoReq.getCategoryId());
         product.setPrice(productDtoReq.getPrice());
-        product.setStock(product.getStock());
+        product.setStock(productDtoReq.getStock());
         return product;
     }
 
+    public List<ProductDtoRes> toDtoList(Iterable<Product> products){
+        return StreamSupport.stream(products.spliterator(), false)
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
 
 }

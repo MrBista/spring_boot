@@ -28,6 +28,11 @@ public class ProductDaoImpl implements ProductDao{
                 SELECT id, name, description, price, stock, category_id, created_at, updated_at
                 FROM products
             """;
+    private static final String SQL_FIND_ALL_BY_CATEGORY_ID = """
+                SELECT id, name, description, price, stock, category_id, created_at, updated_at
+                FROM products
+                WHERE category_id = :categoryId
+            """;
     private static final String SQL_FIND_BY_ID = """
                 SELECT id, name, description, price, stock, category_id, created_at, updated_at
                 FROM products as p
@@ -45,6 +50,14 @@ public class ProductDaoImpl implements ProductDao{
         logger.info("{}", SQL_FIND_ALL);
         return jdbcTemplate.query(SQL_FIND_ALL, productRowMapper);
     }
+
+    @Override
+    public List<Product> findAllByCategoryId(Long id) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("categoryId", id);
+        return jdbcTemplate.query(SQL_FIND_ALL_BY_CATEGORY_ID, params, productRowMapper);
+    }
+
     public Optional<Product> findById(Long id){
         try{
             Map<String, Object> params = new HashMap<>();
@@ -90,7 +103,10 @@ public class ProductDaoImpl implements ProductDao{
         product.setPrice(rs.getBigDecimal("price"));
         product.setStock(rs.getInt("stock"));
         product.setCategoryId(rs.getLong("category_id"));
-        product.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+
+        if (rs.getTimestamp("created_at") != null){
+            product.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+        }
         if (rs.getTimestamp("updated_at") != null) {
             product.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
         }

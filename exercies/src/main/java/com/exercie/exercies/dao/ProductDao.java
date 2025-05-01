@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface ProductDao {
     List<Product> findAll();
+    List<Product> findAllByCategoryId(Long id);
     Optional<Product> findById(Long id);
     void saveDao(Product product);
     void update(Product product);

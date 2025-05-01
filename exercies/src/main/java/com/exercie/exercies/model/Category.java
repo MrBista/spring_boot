@@ -6,6 +6,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Table("categories")
@@ -15,7 +16,7 @@ public class Category {
     private String name;
     private String description;
     @Column("created_at")
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @Transient
     private List<Product> products; // one to many
@@ -23,7 +24,7 @@ public class Category {
     public Category() {
     }
 
-    public Category(String name, String description, LocalDate createdAt) {
+    public Category(String name, String description, LocalDateTime createdAt) {
         this.name = name;
         this.description = description;
         this.createdAt = createdAt;
@@ -53,11 +54,11 @@ public class Category {
         this.description = description;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
