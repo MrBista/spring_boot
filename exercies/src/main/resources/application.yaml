@@ -1,8 +1,10 @@
+server:
+  port: 9000
+
 spring:
   application:
     name: "exercies"
 
-app:
   datasource:
       username: "belajar_jdbc"
       password: "belajar_jdbc"

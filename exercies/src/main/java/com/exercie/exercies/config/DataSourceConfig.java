@@ -6,7 +6,9 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
 
@@ -14,10 +16,8 @@ import javax.sql.DataSource;
 public class DataSourceConfig {
 
     @Bean
-    @ConfigurationProperties("app.datasource")
+    @ConfigurationProperties("spring.datasource")
     public HikariConfig hikariConfig(){
-        HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setMaximumPoolSize(2);
         return new HikariConfig();
     }
 
@@ -30,6 +30,12 @@ public class DataSourceConfig {
     public JdbcTemplate jdbcTemplate(DataSource dataSource){
         // bisa pakai ini
         return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    @Primary
+    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource){
+        return new NamedParameterJdbcTemplate(dataSource);
     }
 
 }
